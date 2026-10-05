@@ -14,7 +14,7 @@ class UpdateBusinessPartnerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'code' => 'required|string|max:50|unique:business_partners,code,' . $this->businessPartner->id,
+            'code' => 'required|string|max:50|unique:business_partners,code,' . $this->business_partner->id,
             'name' => 'required|string|max:100',
             'partner_type' => 'required|in:SUPPLIER,CUSTOMER,BOTH',
             'phone' => 'nullable|string|max:20',
