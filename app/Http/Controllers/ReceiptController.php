@@ -21,7 +21,7 @@ class ReceiptController extends Controller
             ->orderByDesc('created_at')
             ->paginate(15);
 
-        return view('receipts.index', [
+        return view('documents.receipts.index', [
             'documents' => $documents,
         ]);
     }
@@ -32,7 +32,7 @@ class ReceiptController extends Controller
         $suppliers = BusinessPartner::active()->suppliers()->get();
         $products = Product::active()->get();
 
-        return view('receipts.create', [
+        return view('documents.receipts.create', [
             'warehouses' => $warehouses,
             'suppliers' => $suppliers,
             'products' => $products,

@@ -1,8 +1,8 @@
-<x-wms-layout title="Create Document">
-    <x-page-header title="Create Document" subtitle="Add a new document to the system." />
+<x-wms-layout title="Create Receipt">
+    <x-page-header title="Create Receipt" subtitle="Add a new receipt to the system." />
 
     <x-panel>
-        <form action="{{ route('documents.store') }}" method="POST" class="space-y-5">
+        <form action="{{ route('receipts.store') }}" method="POST" class="space-y-5">
             @csrf
             {{--  
             <div class="grid gap-5 md:grid-cols-2">
