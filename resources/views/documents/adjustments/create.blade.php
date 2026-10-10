@@ -1,8 +1,8 @@
-<x-wms-layout title="Create Receipt">
-    <x-page-header title="Create receipt" subtitle="Record goods received from a supplier." />
+<x-wms-layout title="Create Stock Adjustment">
+    <x-page-header title="Create stock adjustment" subtitle="Adjust inventory quantities in warehouse." />
 
     <x-panel>
-        <form action="{{ route('receipts.store') }}" method="POST" class="space-y-6">
+        <form action="{{ route('adjustments.store') }}" method="POST" class="space-y-6">
             @csrf
 
             <!-- Document Header -->
@@ -25,37 +25,20 @@
                         </select>
                         @error('warehouse_id') <span class="text-sm text-rose-600">{{ $message }}</span> @enderror
                     </x-form-field>
-
-                    <x-form-field label="Supplier" for="business_partner_id">
-                        <select id="business_partner_id" name="business_partner_id" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-800 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200">
-                            <option value="">No supplier</option>
-                            @foreach ($suppliers as $supplier)
-                                <option value="{{ $supplier->id }}" {{ old('business_partner_id') == $supplier->id ? 'selected' : '' }}>
-                                    {{ $supplier->code }} - {{ $supplier->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('business_partner_id') <span class="text-sm text-rose-600">{{ $message }}</span> @enderror
-                    </x-form-field>
-
-                    <x-form-field label="External Reference" for="external_reference">
-                        <input id="external_reference" name="external_reference" type="text" value="{{ old('external_reference') }}" placeholder="e.g., PO-2026-001" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-800 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200">
-                        @error('external_reference') <span class="text-sm text-rose-600">{{ $message }}</span> @enderror
-                    </x-form-field>
                 </div>
 
                 <x-form-field label="Notes" for="notes" class="md:col-span-2">
-                    <textarea id="notes" name="notes" rows="3" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-800 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200" placeholder="Additional notes...">{{ old('notes') }}</textarea>
+                    <textarea id="notes" name="notes" rows="3" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-800 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200" placeholder="Reason for adjustment...">{{ old('notes') }}</textarea>
                     @error('notes') <span class="text-sm text-rose-600">{{ $message }}</span> @enderror
                 </x-form-field>
             </div>
 
             <!-- Items Section -->
             <div>
-                <h3 class="text-lg font-semibold text-slate-900 mb-4">Receipt Items</h3>
+                <h3 class="text-lg font-semibold text-slate-900 mb-4">Adjustment Items</h3>
                 
                 <div id="items-container" class="space-y-3 mb-4">
-                    <div class="item-row grid gap-3 md:grid-cols-5 items-end">
+                    <div class="item-row grid gap-3 md:grid-cols-6 items-end">
                         <x-form-field label="Product" for="items.0.product_id" :required="true">
                             <select name="items[0][product_id]" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-800 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200 product-select" required>
                                 <option value="">Select product</option>
@@ -64,6 +47,14 @@
                                         {{ $product->sku }} - {{ $product->name }}
                                     </option>
                                 @endforeach
+                            </select>
+                        </x-form-field>
+
+                        <x-form-field label="Direction" for="items.0.direction" :required="true">
+                            <select name="items[0][direction]" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-800 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200" required>
+                                <option value="">Select</option>
+                                <option value="INCREASE" {{ old('items.0.direction') == 'INCREASE' ? 'selected' : '' }}>INCREASE</option>
+                                <option value="DECREASE" {{ old('items.0.direction') == 'DECREASE' ? 'selected' : '' }}>DECREASE</option>
                             </select>
                         </x-form-field>
 
@@ -78,7 +69,7 @@
                         </x-form-field>
 
                         <x-form-field label="Notes" for="items.0.notes">
-                            <input type="text" name="items[0][notes]" value="{{ old('items.0.notes') }}" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-800 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200" placeholder="Item notes">
+                            <input type="text" name="items[0][notes]" value="{{ old('items.0.notes') }}" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-800 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200" placeholder="Reason">
                         </x-form-field>
 
                         <button type="button" class="remove-item-btn px-3 py-2.5 rounded-lg border border-red-300 bg-red-50 text-red-700 text-sm font-medium hover:bg-red-100" style="display: none;">Remove</button>
@@ -94,8 +85,8 @@
 
             <!-- Actions -->
             <div class="flex items-center justify-end gap-3 pt-4 border-t border-slate-200">
-                <a href="{{ route('receipts.index') }}" class="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50">Cancel</a>
-                <x-primary-button>Create Receipt</x-primary-button>
+                <a href="{{ route('adjustments.index') }}" class="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50">Cancel</a>
+                <x-primary-button>Create Adjustment</x-primary-button>
             </div>
         </form>
     </x-panel>

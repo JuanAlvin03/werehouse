@@ -1,8 +1,8 @@
-<x-wms-layout title="Create Receipt">
-    <x-page-header title="Create receipt" subtitle="Record goods received from a supplier." />
+<x-wms-layout title="Create Stock Issue">
+    <x-page-header title="Create stock issue" subtitle="Record goods issued to customer." />
 
     <x-panel>
-        <form action="{{ route('receipts.store') }}" method="POST" class="space-y-6">
+        <form action="{{ route('issues.store') }}" method="POST" class="space-y-6">
             @csrf
 
             <!-- Document Header -->
@@ -26,12 +26,12 @@
                         @error('warehouse_id') <span class="text-sm text-rose-600">{{ $message }}</span> @enderror
                     </x-form-field>
 
-                    <x-form-field label="Supplier" for="business_partner_id">
+                    <x-form-field label="Customer" for="business_partner_id">
                         <select id="business_partner_id" name="business_partner_id" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-800 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200">
-                            <option value="">No supplier</option>
-                            @foreach ($suppliers as $supplier)
-                                <option value="{{ $supplier->id }}" {{ old('business_partner_id') == $supplier->id ? 'selected' : '' }}>
-                                    {{ $supplier->code }} - {{ $supplier->name }}
+                            <option value="">No customer</option>
+                            @foreach ($customers as $customer)
+                                <option value="{{ $customer->id }}" {{ old('business_partner_id') == $customer->id ? 'selected' : '' }}>
+                                    {{ $customer->code }} - {{ $customer->name }}
                                 </option>
                             @endforeach
                         </select>
@@ -39,7 +39,7 @@
                     </x-form-field>
 
                     <x-form-field label="External Reference" for="external_reference">
-                        <input id="external_reference" name="external_reference" type="text" value="{{ old('external_reference') }}" placeholder="e.g., PO-2026-001" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-800 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200">
+                        <input id="external_reference" name="external_reference" type="text" value="{{ old('external_reference') }}" placeholder="e.g., SO-2026-001" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-800 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200">
                         @error('external_reference') <span class="text-sm text-rose-600">{{ $message }}</span> @enderror
                     </x-form-field>
                 </div>
@@ -52,7 +52,7 @@
 
             <!-- Items Section -->
             <div>
-                <h3 class="text-lg font-semibold text-slate-900 mb-4">Receipt Items</h3>
+                <h3 class="text-lg font-semibold text-slate-900 mb-4">Issue Items</h3>
                 
                 <div id="items-container" class="space-y-3 mb-4">
                     <div class="item-row grid gap-3 md:grid-cols-5 items-end">
@@ -94,8 +94,8 @@
 
             <!-- Actions -->
             <div class="flex items-center justify-end gap-3 pt-4 border-t border-slate-200">
-                <a href="{{ route('receipts.index') }}" class="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50">Cancel</a>
-                <x-primary-button>Create Receipt</x-primary-button>
+                <a href="{{ route('issues.index') }}" class="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50">Cancel</a>
+                <x-primary-button>Create Issue</x-primary-button>
             </div>
         </form>
     </x-panel>
