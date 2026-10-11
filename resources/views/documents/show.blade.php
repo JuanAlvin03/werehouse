@@ -9,7 +9,11 @@
                             Post
                         </button>
                     </form>
-                    <a href="{{ route('documents.edit-by-type', ['document' => $document, 'type' => strtolower(str_replace('_', '-', $document->document_type))]) }}" class="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50">Edit</a>
+
+                    {{-- need to know document type, then route to its respective edit --}}
+
+                    <a href="{{ route($documentType . 's.edit', $document) }}" class="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50">Edit</a>
+                    
                     <form action="{{ route('documents.destroy', $document) }}" method="POST" style="display: inline;">
                         @csrf
                         @method('DELETE')

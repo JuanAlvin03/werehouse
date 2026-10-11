@@ -6,6 +6,7 @@ use App\Models\Document;
 use App\Models\Warehouse;
 use App\Models\Product;
 use App\Models\BusinessPartner;
+use App\Models\Unit;
 use App\Http\Requests\StoreReceiptRequest;
 use App\Http\Requests\UpdateReceiptRequest;
 use App\Services\DocumentNumberGenerator;
@@ -31,11 +32,13 @@ class ReceiptController extends Controller
         $warehouses = Warehouse::active()->get();
         $suppliers = BusinessPartner::active()->suppliers()->get();
         $products = Product::active()->get();
+        $units = Unit::all();
 
         return view('documents.receipts.create', [
             'warehouses' => $warehouses,
             'suppliers' => $suppliers,
             'products' => $products,
+            'units' => $units,
             'documentNo' => DocumentNumberGenerator::generate(Document::TYPE_RECEIPT),
         ]);
     }

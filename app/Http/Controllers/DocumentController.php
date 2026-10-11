@@ -35,6 +35,9 @@ class DocumentController extends Controller
 
     public function show(Document $document): View
     {
+        // get document type and so it can route to edit in the show
+        $documentType = strtolower(str_replace('_', '-', $document->document_type));
+
         return view('documents.show', [
             'document' => $document->load(
                 'warehouse',
@@ -47,6 +50,7 @@ class DocumentController extends Controller
                 'postedBy',
                 'stockMovements'
             ),
+            'documentType' => $documentType,
         ]);
     }
 

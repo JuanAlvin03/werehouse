@@ -2,12 +2,12 @@
     <x-page-header title="Documents" subtitle="View all warehouse transactions and documents.">
         <x-slot:actions>
             <div class="flex items-center gap-2">
-                <a href="{{ route('documents.receipts.create') }}" class="inline-flex items-center justify-center rounded-lg bg-green-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-green-700" title="Create goods receipt">Receipt</a>
-                <a href="{{ route('documents.issues.create') }}" class="inline-flex items-center justify-center rounded-lg bg-orange-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-orange-700" title="Create stock issue">Issue</a>
-                <a href="{{ route('documents.adjustments.create') }}" class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-blue-700" title="Create adjustment">Adjustment</a>
-                <a href="{{ route('documents.customer-returns.create') }}" class="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-indigo-700" title="Customer return">Cust. Return</a>
-                <a href="{{ route('documents.supplier-returns.create') }}" class="inline-flex items-center justify-center rounded-lg bg-purple-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-purple-700" title="Supplier return">Supp. Return</a>
-                <a href="{{ route('documents.transfers.create') }}" class="inline-flex items-center justify-center rounded-lg bg-slate-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-slate-700" title="Transfer between warehouses">Transfer</a>
+                <a href="{{ route('receipts.create') }}" class="inline-flex items-center justify-center rounded-lg bg-green-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-green-700" title="Create goods receipt">Receipt</a>
+                <a href="{{ route('issues.create') }}" class="inline-flex items-center justify-center rounded-lg bg-orange-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-orange-700" title="Create stock issue">Issue</a>
+                <a href="{{ route('adjustments.create') }}" class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-blue-700" title="Create adjustment">Adjustment</a>
+                <a href="{{ route('customer-returns.create') }}" class="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-indigo-700" title="Customer return">Cust. Return</a>
+                <a href="{{ route('supplier-returns.create') }}" class="inline-flex items-center justify-center rounded-lg bg-purple-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-purple-700" title="Supplier return">Supp. Return</a>
+                <a href="{{ route('transfers.create') }}" class="inline-flex items-center justify-center rounded-lg bg-slate-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-slate-700" title="Transfer between warehouses">Transfer</a>
             </div>
         </x-slot:actions>
     </x-page-header>
@@ -72,7 +72,7 @@
                                     <div class="flex justify-end gap-2">
                                         <a href="{{ route('documents.show', $document) }}" class="text-sm font-medium text-slate-700 hover:text-slate-900">View</a>
                                         @if ($document->isDraft())
-                                            <a href="{{ route('documents.edit-by-type', ['document' => $document, 'type' => strtolower(str_replace('_', '-', $document->document_type))]) }}" class="text-sm font-medium text-slate-700 hover:text-slate-900">Edit</a>
+                                            <a href="{{ route(strtolower(str_replace('_', '-', $document->document_type)) .'s.edit', $document) }}" class="text-sm font-medium text-slate-700 hover:text-slate-900">Edit</a>
                                         @endif
                                     </div>
                                 </td>
