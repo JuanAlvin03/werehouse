@@ -63,8 +63,10 @@ class ReceiptController extends Controller
             ->with('success', 'Receipt created successfully.');
     }
 
-    public function edit(Document $document): View
+    public function edit($id): View
     {
+        $document = Document::findOrFail($id);
+
         if ($document->document_type !== Document::TYPE_RECEIPT || !$document->isDraft()) {
             abort(403, 'Cannot edit non-draft receipt documents.');
         }
@@ -72,17 +74,21 @@ class ReceiptController extends Controller
         $warehouses = Warehouse::active()->get();
         $suppliers = BusinessPartner::active()->suppliers()->get();
         $products = Product::active()->get();
+        $units = Unit::all();
 
-        return view('receipts.edit', [
+        return view('documents.receipts.edit', [
             'document' => $document->load('items'),
             'warehouses' => $warehouses,
             'suppliers' => $suppliers,
             'products' => $products,
+            'units' => $units,
         ]);
     }
 
-    public function update(UpdateReceiptRequest $request, Document $document): RedirectResponse
+    public function update(UpdateReceiptRequest $request, $id): RedirectResponse
     {
+        $document = Document::findOrFail($id);
+
         if ($document->document_type !== Document::TYPE_RECEIPT || !$document->isDraft()) {
             abort(403, 'Cannot edit non-draft receipt documents.');
         }
@@ -99,7 +105,7 @@ class ReceiptController extends Controller
             ->with('success', 'Receipt updated successfully.');
     }
 
-    public function show(Document $document): View
+    public function show(Document $document): RedirectResponse
     {
         if ($document->document_type !== Document::TYPE_RECEIPT) {
             abort(404);

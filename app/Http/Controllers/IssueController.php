@@ -21,7 +21,7 @@ class IssueController extends Controller
             ->orderByDesc('created_at')
             ->paginate(15);
 
-        return view('issues.index', [
+        return view('documents.issues.index', [
             'documents' => $documents,
         ]);
     }
@@ -32,7 +32,7 @@ class IssueController extends Controller
         $customers = BusinessPartner::active()->customers()->get();
         $products = Product::active()->get();
 
-        return view('issues.create', [
+        return view('documents.issues.create', [
             'warehouses' => $warehouses,
             'customers' => $customers,
             'products' => $products,
@@ -70,7 +70,7 @@ class IssueController extends Controller
         $customers = BusinessPartner::active()->customers()->get();
         $products = Product::active()->get();
 
-        return view('issues.edit', [
+        return view('documents.issues.edit', [
             'document' => $document->load('items'),
             'warehouses' => $warehouses,
             'customers' => $customers,
