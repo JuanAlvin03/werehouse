@@ -74,6 +74,11 @@
                         <x-form-field label="Unit" for="items.0.unit_id" :required="true">
                             <select name="items[0][unit_id]" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-800 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200 unit-select" required>
                                 <option value="">Select unit</option>
+                                @foreach ($units as $unit)
+                                    <option value="{{ $unit->id }}" data-unit-id="{{ $unit->id }}">
+                                        {{ $unit->name }}
+                                    </option>
+                                @endforeach
                             </select>
                         </x-form-field>
 

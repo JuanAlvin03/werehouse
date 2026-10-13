@@ -6,6 +6,7 @@ use App\Models\Document;
 use App\Models\Warehouse;
 use App\Models\Product;
 use App\Models\BusinessPartner;
+use App\Models\Unit;
 use App\Http\Requests\StoreIssueRequest;
 use App\Http\Requests\UpdateIssueRequest;
 use App\Services\DocumentNumberGenerator;
@@ -31,12 +32,14 @@ class IssueController extends Controller
         $warehouses = Warehouse::active()->get();
         $customers = BusinessPartner::active()->customers()->get();
         $products = Product::active()->get();
+        $units = Unit::all();
 
         return view('documents.issues.create', [
             'warehouses' => $warehouses,
             'customers' => $customers,
             'products' => $products,
             'documentNo' => DocumentNumberGenerator::generate(Document::TYPE_ISSUE),
+            'units' => $units,
         ]);
     }
 
@@ -60,8 +63,10 @@ class IssueController extends Controller
             ->with('success', 'Stock issue created successfully.');
     }
 
-    public function edit(Document $document): View
+    public function edit($id): View
     {
+        $document = Document::findOrFail($id);
+
         if ($document->document_type !== Document::TYPE_ISSUE || !$document->isDraft()) {
             abort(403, 'Cannot edit non-draft issue documents.');
         }
@@ -69,17 +74,21 @@ class IssueController extends Controller
         $warehouses = Warehouse::active()->get();
         $customers = BusinessPartner::active()->customers()->get();
         $products = Product::active()->get();
+        $units = Unit::all();
 
         return view('documents.issues.edit', [
             'document' => $document->load('items'),
             'warehouses' => $warehouses,
             'customers' => $customers,
             'products' => $products,
+            'units' => $units,
         ]);
     }
 
-    public function update(UpdateIssueRequest $request, Document $document): RedirectResponse
+    public function update(UpdateIssueRequest $request, $id): RedirectResponse
     {
+        $document = Document::findOrFail($id);
+
         if ($document->document_type !== Document::TYPE_ISSUE || !$document->isDraft()) {
             abort(403, 'Cannot edit non-draft issue documents.');
         }
