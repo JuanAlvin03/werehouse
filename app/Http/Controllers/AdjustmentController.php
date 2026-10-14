@@ -6,6 +6,7 @@ use App\Models\Document;
 use App\Models\Warehouse;
 use App\Models\Product;
 use App\Models\StockAdjustmentReason;
+use App\Models\Unit;
 use App\Http\Requests\StoreAdjustmentRequest;
 use App\Http\Requests\UpdateAdjustmentRequest;
 use App\Services\DocumentNumberGenerator;
@@ -21,7 +22,7 @@ class AdjustmentController extends Controller
             ->orderByDesc('created_at')
             ->paginate(15);
 
-        return view('adjustments.index', [
+        return view('documents.adjustments.index', [
             'documents' => $documents,
         ]);
     }
@@ -31,11 +32,13 @@ class AdjustmentController extends Controller
         $warehouses = Warehouse::active()->get();
         $reasons = StockAdjustmentReason::active()->get();
         $products = Product::active()->get();
+        $units = Unit::all();
 
-        return view('adjustments.create', [
+        return view('documents.adjustments.create', [
             'warehouses' => $warehouses,
             'reasons' => $reasons,
             'products' => $products,
+            'units' => $units,
             'documentNo' => DocumentNumberGenerator::generate(Document::TYPE_ADJUSTMENT),
         ]);
     }
@@ -84,7 +87,7 @@ class AdjustmentController extends Controller
         $reasons = StockAdjustmentReason::active()->get();
         $products = Product::active()->get();
 
-        return view('adjustments.edit', [
+        return view('documents.adjustments.edit', [
             'document' => $document->load('items'),
             'warehouses' => $warehouses,
             'reasons' => $reasons,
