@@ -67,7 +67,7 @@ class AdjustmentController extends Controller
 
             $document->items()->create([
                 'product_id' => $item['product_id'],
-                'quantity' => abs($item['quantity']),
+                'quantity' => $quantity,
                 'unit_id' => $item['unit_id'],
                 'notes' => $item['notes'] ?? null,
             ]);
@@ -77,8 +77,10 @@ class AdjustmentController extends Controller
             ->with('success', 'Stock adjustment created successfully.');
     }
 
-    public function edit(Document $document): View
+    public function edit($id): View
     {
+        $document = Document::findOrFail($id);
+
         if ($document->document_type !== Document::TYPE_ADJUSTMENT || !$document->isDraft()) {
             abort(403, 'Cannot edit non-draft adjustment documents.');
         }
@@ -86,17 +88,22 @@ class AdjustmentController extends Controller
         $warehouses = Warehouse::active()->get();
         $reasons = StockAdjustmentReason::active()->get();
         $products = Product::active()->get();
+        $units = Unit::all();
 
         return view('documents.adjustments.edit', [
             'document' => $document->load('items'),
             'warehouses' => $warehouses,
             'reasons' => $reasons,
             'products' => $products,
+            'units' => $units,
         ]);
     }
 
-    public function update(UpdateAdjustmentRequest $request, Document $document): RedirectResponse
+    public function update(UpdateAdjustmentRequest $request, $id): RedirectResponse
     {
+
+        $document = Document::findOrFail($id);
+
         if ($document->document_type !== Document::TYPE_ADJUSTMENT || !$document->isDraft()) {
             abort(403, 'Cannot edit non-draft adjustment documents.');
         }
@@ -106,9 +113,19 @@ class AdjustmentController extends Controller
         // Update items
         $document->items()->delete();
         foreach ($request->items as $item) {
+
+            $quantity = $item['quantity'];
+            
+            // Sign the quantity based on direction in item
+            if (isset($item['direction']) && $item['direction'] === 'DECREASE') {
+                $quantity = -abs($quantity);
+            } else {
+                $quantity = abs($quantity);
+            }
+
             $document->items()->create([
                 'product_id' => $item['product_id'],
-                'quantity' => abs($item['quantity']),
+                'quantity' => $quantity,
                 'unit_id' => $item['unit_id'],
                 'notes' => $item['notes'] ?? null,
             ]);
