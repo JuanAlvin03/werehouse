@@ -6,6 +6,7 @@ use App\Models\Document;
 use App\Models\Warehouse;
 use App\Models\Product;
 use App\Models\BusinessPartner;
+use App\Models\Unit;
 use App\Http\Requests\StoreCustomerReturnRequest;
 use App\Http\Requests\UpdateCustomerReturnRequest;
 use App\Services\DocumentNumberGenerator;
@@ -21,7 +22,7 @@ class CustomerReturnController extends Controller
             ->orderByDesc('created_at')
             ->paginate(15);
 
-        return view('customer-returns.index', [
+        return view('documents.customer-returns.index', [
             'documents' => $documents,
         ]);
     }
@@ -31,11 +32,13 @@ class CustomerReturnController extends Controller
         $warehouses = Warehouse::active()->get();
         $customers = BusinessPartner::active()->customers()->get();
         $products = Product::active()->get();
+        $units = Unit::all();
 
-        return view('customer-returns.create', [
+        return view('documents.customer-returns.create', [
             'warehouses' => $warehouses,
             'customers' => $customers,
             'products' => $products,
+            'units' => $units,
             'documentNo' => DocumentNumberGenerator::generate(Document::TYPE_CUSTOMER_RETURN),
         ]);
     }
@@ -68,13 +71,15 @@ class CustomerReturnController extends Controller
 
         $warehouses = Warehouse::active()->get();
         $customers = BusinessPartner::active()->customers()->get();
+        $units = Unit::all();
         $products = Product::active()->get();
 
-        return view('customer-returns.edit', [
+        return view('documents.customer-returns.edit', [
             'document' => $document->load('items'),
             'warehouses' => $warehouses,
             'customers' => $customers,
             'products' => $products,
+            'units' => $units,
         ]);
     }
 
