@@ -1,7 +1,7 @@
-<x-wms-layout title="Stock Issues">
-    <x-page-header title="Stock issues" subtitle="Goods issued from warehouse.">
+<x-wms-layout title="Customer Returns">
+    <x-page-header title="Customer Returns" subtitle="Goods returned by customers.">
         <x-slot:actions>
-            <a href="{{ route('issues.create') }}" class="inline-flex items-center justify-center rounded-lg bg-orange-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-orange-700">New Issue</a>
+            <a href="{{ route('customer-returns.create') }}" class="inline-flex items-center justify-center rounded-lg bg-orange-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-orange-700">New Return</a>
         </x-slot:actions>
     </x-page-header>
 
@@ -22,24 +22,24 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-200 bg-white">
-                        @foreach ($documents as $issue)
+                        @foreach ($documents as $customer_return)
                             <tr>
-                                <td class="px-4 py-3 font-medium text-slate-800">{{ $issue->document_no }}</td>
-                                <td class="px-4 py-3">{{ $issue->document_date->format('M d, Y') }}</td>
-                                <td class="px-4 py-3">{{ $issue->warehouse?->code }}</td>
-                                <td class="px-4 py-3">{{ $issue->businessPartner?->name ?? '—' }}</td>
+                                <td class="px-4 py-3 font-medium text-slate-800">{{ $customer_return->document_no }}</td>
+                                <td class="px-4 py-3">{{ $customer_return->document_date->format('M d, Y') }}</td>
+                                <td class="px-4 py-3">{{ $customer_return->warehouse?->code }}</td>
+                                <td class="px-4 py-3">{{ $customer_return->businessPartner?->name ?? '—' }}</td>
                                 <td class="px-4 py-3">
-                                    <x-status-badge :value="$issue->status" :tone="$issue->status === 'POSTED' ? 'success' : ($issue->status === 'CANCELLED' ? 'warning' : 'default')" />
+                                    <x-status-badge :value="$customer_return->status" :tone="$customer_return->status === 'POSTED' ? 'success' : ($customer_return->status === 'CANCELLED' ? 'warning' : 'default')" />
                                 </td>
                                 <td class="px-4 py-3">
-                                    <span class="text-slate-600">{{ $issue->items->count() }} item{{ $issue->items->count() !== 1 ? 's' : '' }}</span>
+                                    <span class="text-slate-600">{{ $customer_return->items->count() }} item{{ $customer_return->items->count() !== 1 ? 's' : '' }}</span>
                                 </td>
-                                <td class="px-4 py-3 text-sm">{{ $issue->createdBy?->name ?? '—' }}</td>
+                                <td class="px-4 py-3 text-sm">{{ $customer_return->createdBy?->name ?? '—' }}</td>
                                 <td class="px-4 py-3 text-right">
                                     <div class="flex justify-end gap-2">
-                                        <a href="{{ route('documents.show', $issue) }}" class="text-sm font-medium text-slate-700 hover:text-slate-900">View</a>
-                                        @if ($issue->isDraft())
-                                            <a href="{{ route('issues.edit', $issue) }}" class="text-sm font-medium text-slate-700 hover:text-slate-900">Edit</a>
+                                        <a href="{{ route('documents.show', $customer_return) }}" class="text-sm font-medium text-slate-700 hover:text-slate-900">View</a>
+                                        @if ($customer_return->isDraft())
+                                            <a href="{{ route('customer-returns.edit', $customer_return) }}" class="text-sm font-medium text-slate-700 hover:text-slate-900">Edit</a>
                                         @endif
                                     </div>
                                 </td>
@@ -54,8 +54,8 @@
             </div>
         @else
             <div class="py-12 text-center">
-                <p class="text-sm text-slate-500 mb-4">No stock issues found. Create your first issue.</p>
-                <a href="{{ route('issues.create') }}" class="inline-flex items-center justify-center rounded-lg bg-orange-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-orange-700">Create Issue</a>
+                <p class="text-sm text-slate-500 mb-4">No customer returns found. Create your first return.</p>
+                <a href="{{ route('customer-returns.create') }}" class="inline-flex items-center justify-center rounded-lg bg-orange-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-orange-700">Create Return</a>
             </div>
         @endif
     </x-panel>

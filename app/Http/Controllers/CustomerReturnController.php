@@ -63,8 +63,10 @@ class CustomerReturnController extends Controller
             ->with('success', 'Customer return created successfully.');
     }
 
-    public function edit(Document $document): View
+    public function edit($id): View
     {
+        $document = Document::findOrFail($id);
+
         if ($document->document_type !== Document::TYPE_CUSTOMER_RETURN || !$document->isDraft()) {
             abort(403, 'Cannot edit non-draft customer return documents.');
         }
@@ -83,8 +85,10 @@ class CustomerReturnController extends Controller
         ]);
     }
 
-    public function update(UpdateCustomerReturnRequest $request, Document $document): RedirectResponse
+    public function update(UpdateCustomerReturnRequest $request, $id): RedirectResponse
     {
+        $document = Document::findOrFail($id);
+
         if ($document->document_type !== Document::TYPE_CUSTOMER_RETURN || !$document->isDraft()) {
             abort(403, 'Cannot edit non-draft customer return documents.');
         }

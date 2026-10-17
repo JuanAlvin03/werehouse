@@ -1,8 +1,8 @@
-<x-wms-layout title="Edit Stock Issue">
-    <x-page-header title="Edit stock issue" subtitle="Update issue details." />
+<x-wms-layout title="Edit Customer Return">
+    <x-page-header title="Edit customer return" subtitle="Update return details." />
 
     <x-panel>
-        <form action="{{ route('issues.update', $document) }}" method="POST" class="space-y-6">
+        <form action="{{ route('customer-returns.update', $document) }}" method="POST" class="space-y-6">
             @csrf
             @method('PUT')
 
@@ -136,8 +136,8 @@
 
             <!-- Actions -->
             <div class="flex items-center justify-end gap-3 pt-4 border-t border-slate-200">
-                <a href="{{ route('issues.index') }}" class="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50">Cancel</a>
-                <x-primary-button>Update Issue</x-primary-button>
+                <a href="{{ route('customer-returns.index') }}" class="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50">Cancel</a>
+                <x-primary-button>Update Customer Return</x-primary-button>
             </div>
         </form>
     </x-panel>
