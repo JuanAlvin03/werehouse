@@ -18,6 +18,7 @@ class DocumentItem extends Model
         'quantity',
         'unit_id',
         'notes',
+        'direction',
     ];
 
     protected $casts = [

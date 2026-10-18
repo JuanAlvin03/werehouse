@@ -56,6 +56,7 @@ class AdjustmentController extends Controller
 
         // Create document items with signed quantity based on direction
         foreach ($request->items as $item) {
+            /*
             $quantity = $item['quantity'];
             
             // Sign the quantity based on direction in item
@@ -64,12 +65,16 @@ class AdjustmentController extends Controller
             } else {
                 $quantity = abs($quantity);
             }
+            */
 
             $document->items()->create([
                 'product_id' => $item['product_id'],
-                'quantity' => $quantity,
+                //'quantity' => $quantity,
+                'quantity' => $item['quantity'],
                 'unit_id' => $item['unit_id'],
                 'notes' => $item['notes'] ?? null,
+                'direction' => $item['direction'] ?? null,
+                //'direction' => 'INCREASE',
             ]);
         }
 
@@ -114,20 +119,13 @@ class AdjustmentController extends Controller
         $document->items()->delete();
         foreach ($request->items as $item) {
 
-            $quantity = $item['quantity'];
-            
-            // Sign the quantity based on direction in item
-            if (isset($item['direction']) && $item['direction'] === 'DECREASE') {
-                $quantity = -abs($quantity);
-            } else {
-                $quantity = abs($quantity);
-            }
-
             $document->items()->create([
                 'product_id' => $item['product_id'],
-                'quantity' => $quantity,
+                'quantity' => $item['quantity'],
                 'unit_id' => $item['unit_id'],
                 'notes' => $item['notes'] ?? null,
+                'direction' => $item['direction'] ?? null,
+                //'direction' => 'INCREASE',
             ]);
         }
 

@@ -252,14 +252,13 @@ class DocumentPostingService
         $warehouseId = $document->warehouse_id;
         $locationId = $this->getDefaultLocation($warehouseId)->id ?? null;
 
-        // Determine direction from notes or assume decrease
-        // For now, we'll parse from the document structure
-        // The controller/form will need to specify increase/decrease
-        $direction = $document->notes; // This should be parsed differently
+        //$direction = $document->notes;
 
-        // For adjustment, we'll use the sign to determine direction
-        // This will be refined in the controller
-        $quantity = $item->quantity; // This should be signed in the request
+        // document item can not store negative quantity (but stock movement can), so we need to determine the sign of the quantity based on the direction stored in the document item
+        $quantity = $item->quantity; // Direction now stored in document item, so we can use it to determine the sign of the quantity
+        if ($item->direction === 'DECREASE') {
+            $quantity = -abs($quantity);
+        } 
 
         // Create movement
         StockMovement::create([

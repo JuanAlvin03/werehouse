@@ -55,8 +55,8 @@
                             <x-form-field label="Direction" for="items.{{ $index }}.direction" :required="true">
                                 <select name="items[{{ $index }}][direction]" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-800 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200" required>
                                     <option value="">Select</option>
-                                    <option value="INCREASE" {{ old("items.{$index}.direction") == 'INCREASE' ? 'selected' : '' }}>INCREASE</option>
-                                    <option value="DECREASE" {{ old("items.{$index}.direction") == 'DECREASE' ? 'selected' : '' }}>DECREASE</option>
+                                    <option value="INCREASE" {{ $item->direction == 'INCREASE' ? 'selected' : '' }}>INCREASE</option>
+                                    <option value="DECREASE" {{ $item->direction == 'DECREASE' ? 'selected' : '' }}>DECREASE</option>
                                 </select>
                             </x-form-field>
 
