@@ -6,6 +6,7 @@ use App\Models\Document;
 use App\Models\Warehouse;
 use App\Models\Product;
 use App\Models\BusinessPartner;
+use App\Models\Unit;
 use App\Http\Requests\StoreSupplierReturnRequest;
 use App\Http\Requests\UpdateSupplierReturnRequest;
 use App\Services\DocumentNumberGenerator;
@@ -21,7 +22,7 @@ class SupplierReturnController extends Controller
             ->orderByDesc('created_at')
             ->paginate(15);
 
-        return view('supplier-returns.index', [
+        return view('documents.supplier-returns.index', [
             'documents' => $documents,
         ]);
     }
@@ -31,11 +32,13 @@ class SupplierReturnController extends Controller
         $warehouses = Warehouse::active()->get();
         $suppliers = BusinessPartner::active()->suppliers()->get();
         $products = Product::active()->get();
+        $units = Unit::all();
 
-        return view('supplier-returns.create', [
+        return view('documents.supplier-returns.create', [
             'warehouses' => $warehouses,
             'suppliers' => $suppliers,
             'products' => $products,
+            'units' => $units,
             'documentNo' => DocumentNumberGenerator::generate(Document::TYPE_SUPPLIER_RETURN),
         ]);
     }
@@ -60,8 +63,10 @@ class SupplierReturnController extends Controller
             ->with('success', 'Supplier return created successfully.');
     }
 
-    public function edit(Document $document): View
+    public function edit($id): View
     {
+        $document = Document::findOrFail($id);
+
         if ($document->document_type !== Document::TYPE_SUPPLIER_RETURN || !$document->isDraft()) {
             abort(403, 'Cannot edit non-draft supplier return documents.');
         }
@@ -69,17 +74,21 @@ class SupplierReturnController extends Controller
         $warehouses = Warehouse::active()->get();
         $suppliers = BusinessPartner::active()->suppliers()->get();
         $products = Product::active()->get();
+        $units = Unit::all();
 
-        return view('supplier-returns.edit', [
+        return view('documents.supplier-returns.edit', [
             'document' => $document->load('items'),
             'warehouses' => $warehouses,
             'suppliers' => $suppliers,
             'products' => $products,
+            'units' => $units,
         ]);
     }
 
-    public function update(UpdateSupplierReturnRequest $request, Document $document): RedirectResponse
+    public function update(UpdateSupplierReturnRequest $request, $id): RedirectResponse
     {
+        $document = Document::findOrFail($id);
+
         if ($document->document_type !== Document::TYPE_SUPPLIER_RETURN || !$document->isDraft()) {
             abort(403, 'Cannot edit non-draft supplier return documents.');
         }
