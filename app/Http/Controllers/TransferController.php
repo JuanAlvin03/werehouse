@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Document;
 use App\Models\Warehouse;
 use App\Models\Product;
+use App\Models\Unit;
 use App\Http\Requests\StoreTransferRequest;
 use App\Http\Requests\UpdateTransferRequest;
 use App\Services\DocumentNumberGenerator;
@@ -20,7 +21,7 @@ class TransferController extends Controller
             ->orderByDesc('created_at')
             ->paginate(15);
 
-        return view('transfers.index', [
+        return view('documents.transfers.index', [
             'documents' => $documents,
         ]);
     }
@@ -29,10 +30,12 @@ class TransferController extends Controller
     {
         $warehouses = Warehouse::active()->get();
         $products = Product::active()->get();
+        $units = Unit::all();
 
-        return view('transfers.create', [
+        return view('documents.transfers.create', [
             'warehouses' => $warehouses,
             'products' => $products,
+            'units' => $units,
             'documentNo' => DocumentNumberGenerator::generate(Document::TYPE_TRANSFER),
         ]);
     }
@@ -57,8 +60,10 @@ class TransferController extends Controller
             ->with('success', 'Warehouse transfer created successfully.');
     }
 
-    public function edit(Document $document): View
+    public function edit($id): View
     {
+        $document = Document::findOrFail($id);
+        $units = Unit::all();
         if ($document->document_type !== Document::TYPE_TRANSFER || !$document->isDraft()) {
             abort(403, 'Cannot edit non-draft transfer documents.');
         }
@@ -66,15 +71,18 @@ class TransferController extends Controller
         $warehouses = Warehouse::active()->get();
         $products = Product::active()->get();
 
-        return view('transfers.edit', [
+        return view('documents.transfers.edit', [
             'document' => $document->load('items'),
             'warehouses' => $warehouses,
             'products' => $products,
+            'units' => $units,
         ]);
     }
 
-    public function update(UpdateTransferRequest $request, Document $document): RedirectResponse
+    public function update(UpdateTransferRequest $request, $id): RedirectResponse
     {
+        $document = Document::findOrFail($id);
+
         if ($document->document_type !== Document::TYPE_TRANSFER || !$document->isDraft()) {
             abort(403, 'Cannot edit non-draft transfer documents.');
         }
