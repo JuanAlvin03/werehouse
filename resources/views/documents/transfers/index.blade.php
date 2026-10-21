@@ -13,8 +13,8 @@
                         <tr>
                             <th class="px-4 py-3 font-medium">Document No.</th>
                             <th class="px-4 py-3 font-medium">Date</th>
-                            <th class="px-4 py-3 font-medium">Warehouse</th>
-                            <th class="px-4 py-3 font-medium">Supplier</th>
+                            <th class="px-4 py-3 font-medium">Source Warehouse</th>
+                            <th class="px-4 py-3 font-medium">Destination Warehouse</th>
                             <th class="px-4 py-3 font-medium">Status</th>
                             <th class="px-4 py-3 font-medium">Items</th>
                             <th class="px-4 py-3 font-medium">Created By</th>
@@ -26,8 +26,8 @@
                             <tr>
                                 <td class="px-4 py-3 font-medium text-slate-800">{{ $tranfer->document_no }}</td>
                                 <td class="px-4 py-3">{{ $tranfer->document_date->format('M d, Y') }}</td>
-                                <td class="px-4 py-3">{{ $tranfer->warehouse?->code }}</td>
-                                <td class="px-4 py-3">{{ $tranfer->businessPartner?->name ?? '—' }}</td>
+                                <td class="px-4 py-3">{{ $tranfer->fromWarehouse?->code }}</td>
+                                <td class="px-4 py-3">{{ $tranfer->toWarehouse?->code }}</td>
                                 <td class="px-4 py-3">
                                     <x-status-badge :value="$tranfer->status" :tone="$tranfer->status === 'POSTED' ? 'success' : ($tranfer->status === 'CANCELLED' ? 'warning' : 'default')" />
                                 </td>
