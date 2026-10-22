@@ -64,6 +64,10 @@ class ProductController extends Controller
     {
         $product->update($request->validated());
 
+        if (!$request->input('is_active')) {
+            $product->update(['is_active' => false]);
+        }
+
         return redirect()->route('products.index')
             ->with('success', 'Product updated successfully.');
     }
