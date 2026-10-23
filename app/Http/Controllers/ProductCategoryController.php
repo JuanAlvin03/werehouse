@@ -33,7 +33,11 @@ class ProductCategoryController extends Controller
 
     public function store(StoreProductCategoryRequest $request): RedirectResponse
     {
-        ProductCategory::create($request->validated());
+        $category = ProductCategory::create($request->validated());
+
+        if (!$request->input('is_active')) {
+            $category->update(['is_active' => false]);
+        }
 
         return redirect()->route('product-categories.index')
             ->with('success', 'Product category created successfully.');
@@ -62,6 +66,10 @@ class ProductCategoryController extends Controller
     public function update(UpdateProductCategoryRequest $request, ProductCategory $productCategory): RedirectResponse
     {
         $productCategory->update($request->validated());
+
+        if (!$request->input('is_active')) {
+            $productCategory->update(['is_active' => false]);
+        }
 
         return redirect()->route('product-categories.index')
             ->with('success', 'Product category updated successfully.');

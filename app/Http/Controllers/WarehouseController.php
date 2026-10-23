@@ -29,6 +29,10 @@ class WarehouseController extends Controller
     {
         $warehouse = Warehouse::create($request->validated());
 
+        if (!$request->input('is_active')) {
+            $warehouse->update(['is_active' => false]);
+        }
+
         return redirect()->route('warehouses.index')
             ->with('success', 'Warehouse created successfully.');
     }
@@ -50,6 +54,10 @@ class WarehouseController extends Controller
     public function update(UpdateWarehouseRequest $request, Warehouse $warehouse): RedirectResponse
     {
         $warehouse->update($request->validated());
+
+        if (!$request->input('is_active')) {
+            $warehouse->update(['is_active' => false]);
+        }
 
         return redirect()->route('warehouses.index')
             ->with('success', 'Warehouse updated successfully.');

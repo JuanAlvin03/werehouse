@@ -26,7 +26,11 @@ class BusinessPartnerController extends Controller
 
     public function store(StoreBusinessPartnerRequest $request): RedirectResponse
     {
-        BusinessPartner::create($request->validated());
+        $partner = BusinessPartner::create($request->validated());
+
+        if (!$request->input('is_active')) {
+            $partner->update(['is_active' => false]);
+        }
 
         return redirect()->route('business-partners.index')
             ->with('success', 'Business partner created successfully.');
@@ -49,6 +53,10 @@ class BusinessPartnerController extends Controller
     public function update(UpdateBusinessPartnerRequest $request, BusinessPartner $businessPartner): RedirectResponse
     {
         $businessPartner->update($request->validated());
+
+        if (!$request->input('is_active')) {
+            $businessPartner->update(['is_active' => false]);
+        }
 
         return redirect()->route('business-partners.index')
             ->with('success', 'Business partner updated successfully.');

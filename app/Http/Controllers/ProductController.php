@@ -35,7 +35,11 @@ class ProductController extends Controller
 
     public function store(StoreProductRequest $request): RedirectResponse
     {
-        Product::create($request->validated());
+        $product = Product::create($request->validated());
+
+        if (!$request->input('is_active')) {
+            $product->update(['is_active' => false]);
+        }
 
         return redirect()->route('products.index')
             ->with('success', 'Product created successfully.');
