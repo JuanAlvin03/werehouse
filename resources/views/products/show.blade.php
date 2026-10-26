@@ -5,6 +5,11 @@
         </x-slot:actions>
     </x-page-header>
 
+    <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4 mb-6">
+        <x-stat-card label="Total Available" value="{{ $product->inventories->sum('quantity_on_hand') }}" tone="success" icon='<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 7.5 12 3l8 4.5v9L12 21l-8-4.5v-9zm8 3.5 8-4.5M12 11v10" /></svg>' />
+        <x-stat-card label="Total Reserved" value="{{ $product->inventories->sum('quantity_reserved') }}" tone="warning" icon='<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3.5 20V8.5L12 4l8.5 4.5V20M7 10h10M7 14h10M7 18h10" /></svg>' />
+    </div>
+
     <div class="grid gap-6 lg:grid-cols-2">
         <x-panel title="Overview">
             <dl class="space-y-4 text-sm text-slate-700">
