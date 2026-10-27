@@ -77,8 +77,11 @@ class ProductController extends Controller
             ->with('success', 'Product updated successfully.');
     }
 
-    public function destroy(Product $product): RedirectResponse
+    public function destroy($id): RedirectResponse
     {
+
+        $product = Product::findOrFail($id);
+
         // Only allow deletion if no documents reference it
         if ($product->documentItems()->count() > 0) {
             return redirect()->back()

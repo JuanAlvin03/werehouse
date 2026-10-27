@@ -2,6 +2,7 @@
     <x-page-header title="{{ $product->name }}" subtitle="{{ $product->sku }}">
         <x-slot:actions>
             <a href="{{ route('products.edit', $product) }}" class="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50">Edit</a>
+            <a href="{{ route('products.destroy', $product->id) }}" class="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-red-500 px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50">Delete</a>
         </x-slot:actions>
     </x-page-header>
 
