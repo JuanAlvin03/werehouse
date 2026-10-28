@@ -2,7 +2,16 @@
     <x-page-header title="{{ $product->name }}" subtitle="{{ $product->sku }}">
         <x-slot:actions>
             <a href="{{ route('products.edit', $product) }}" class="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50">Edit</a>
-            <a href="{{ route('products.destroy', $product->id) }}" class="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-red-500 px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50">Delete</a>
+            
+            @if ($product->documentItems->count() == 0) 
+                <form action="{{ route('products.destroy', $product) }}" method="POST" style="display: inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="inline-flex items-center justify-center rounded-lg border border-red-300 bg-red-50 px-4 py-2.5 text-sm font-medium text-red-700 hover:bg-red-100" onclick="return confirm('Delete this product? This cannot be undone.');">
+                        Delete
+                    </button>
+                </form>
+            @endif
         </x-slot:actions>
     </x-page-header>
 
