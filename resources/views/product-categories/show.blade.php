@@ -2,6 +2,16 @@
     <x-page-header title="{{ $category->name }}" subtitle="{{ $category->code }}">
         <x-slot:actions>
             <a href="{{ route('product-categories.edit', $category) }}" class="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50">Edit</a>
+        
+            @if ($category->products()->count() == 0 && $category->children()->count() == 0) 
+                <form action="{{ route('product-categories.destroy', $category) }}" method="POST" style="display: inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="inline-flex items-center justify-center rounded-lg border border-red-300 bg-red-50 px-4 py-2.5 text-sm font-medium text-red-700 hover:bg-red-100" onclick="return confirm('Delete this category? This cannot be undone.');">
+                        Delete
+                    </button>
+                </form>
+            @endif
         </x-slot:actions>
     </x-page-header>
 

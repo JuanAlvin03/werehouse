@@ -57,7 +57,7 @@ class UnitController extends Controller
     public function destroy(Unit $unit): RedirectResponse
     {
         // Only allow deletion if no products reference it
-        if ($unit->products()->count() > 0) {
+        if ($unit->products()->count() > 0 || $unit->documentItems()->count() > 0) {
             return redirect()->back()
                 ->with('error', 'Cannot delete unit with existing products. Mark as inactive instead.');
         }

@@ -78,9 +78,9 @@ class ProductCategoryController extends Controller
     public function destroy(ProductCategory $productCategory): RedirectResponse
     {
         // Only allow deletion if no products reference it
-        if ($productCategory->products()->count() > 0) {
+        if ($productCategory->products()->count() > 0 || $productCategory->children()->count() > 0) {
             return redirect()->back()
-                ->with('error', 'Cannot delete category with existing products. Mark as inactive instead.');
+                ->with('error', 'Cannot delete category with existing products or child category. Mark as inactive instead.');
         }
 
         $productCategory->delete();

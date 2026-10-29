@@ -66,7 +66,9 @@ class WarehouseController extends Controller
     public function destroy(Warehouse $warehouse): RedirectResponse
     {
         // Only allow deletion if no transactions reference it
-        if ($warehouse->documents()->count() > 0 || $warehouse->stockMovements()->count() > 0) {
+        // use Inventories instead of documents or stock movements
+        // because transfer uses another column (different fk column, hard to keep track)
+        if ($warehouse->inventories()->count() > 0) {
             return redirect()->back()
                 ->with('error', 'Cannot delete warehouse with existing transactions. Mark as inactive instead.');
         }
