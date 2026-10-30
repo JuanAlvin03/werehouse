@@ -17,18 +17,18 @@ class UserController extends Controller
     /**
      * Display the registration view.
      */
-    //public function create(): View
-    //{
-        
-    //}
+    public function create(): View
+    {
+  
+    }
 
     /**
      * Handle an incoming registration request.
      *
      * @throws ValidationException
      */
-    //public function store(Request $request): RedirectResponse
-    //{
-        
-    //}
+    public function store(Request $request): RedirectResponse
+    {
+  
+    }
 }
