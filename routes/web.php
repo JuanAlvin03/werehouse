@@ -69,6 +69,7 @@ Route::middleware('auth')->group(function () {
 
     // User Add, only admin can add user
     Route::get('users/create', [UserController::class, 'create'])->name('users.create');
+    Route::get('users/', [UserController::class, 'index'])->name('users.index');
     Route::post('users/', [UserController::class, 'store'])->name('users.store');
 });
 

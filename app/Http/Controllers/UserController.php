@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -14,12 +14,21 @@ use Illuminate\View\View;
 
 class UserController extends Controller
 {
+    public function index(): View
+    {
+        $users = User::all(); 
+
+        return view('users.index', [
+            'users' => $users,
+        ]);
+    }
+
     /**
      * Display the registration view.
      */
     public function create(): View
     {
-  
+        return view('users.create');
     }
 
     /**
@@ -29,6 +38,7 @@ class UserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-  
+        return redirect()->route('users.index')
+            ->with('success', 'User created successfully.');
     }
 }
