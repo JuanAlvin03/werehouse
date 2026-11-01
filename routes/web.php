@@ -16,6 +16,7 @@ use App\Http\Controllers\CustomerReturnController;
 use App\Http\Controllers\SupplierReturnController;
 use App\Http\Controllers\TransferController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -68,9 +69,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('transfers', TransferController::class, ['only' => ['index', 'create', 'store', 'edit', 'update']]);
 
     // User Add, only admin can add user
-    Route::get('users/create', [UserController::class, 'create'])->name('users.create');
+    Route::get('users/create', [RegisteredUserController::class, 'create'])->name('users.create');
     Route::get('users/', [UserController::class, 'index'])->name('users.index');
-    Route::post('users/', [UserController::class, 'store'])->name('users.store');
+    Route::post('users/', [RegisteredUserController::class, 'store'])->name('users.store');
 });
 
 require __DIR__.'/auth.php';
