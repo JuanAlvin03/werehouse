@@ -33,6 +33,8 @@
                         <x-sidebar-link :href="route('users.index')" :active="request()->routeIs('users.*')" icon='<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M12 2.75a4.75 4.75 0 0 1 4.75 4.75v.5A4.75 4.75 0 0 1 12 13.75a4.75 4.75 0 0 1-4.75-4.75v-.5A4.75 4.75 0 0 1 12 2.75zm-7.25 17c.9-2.98 3.53-5 7.25-5s6.35 2.02 7.25 5" /></svg>'>Users</x-sidebar-link>
 
                         <x-sidebar-link :href="route('profile.edit')" :active="request()->routeIs('profile.*')" icon='<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M12 2.75a4.75 4.75 0 0 1 4.75 4.75v.5A4.75 4.75 0 0 1 12 13.75a4.75 4.75 0 0 1-4.75-4.75v-.5A4.75 4.75 0 0 1 12 2.75zm-7.25 17c.9-2.98 3.53-5 7.25-5s6.35 2.02 7.25 5" /></svg>'>Profile</x-sidebar-link>
+                    
+                        <x-sidebar-link :href="route('activity-logs.index')" :active="request()->routeIs('activity-logs.*')" icon='<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M12 2.75a4.75 4.75 0 0 1 4.75 4.75v.5A4.75 4.75 0 0 1 12 13.75a4.75 4.75 0 0 1-4.75-4.75v-.5A4.75 4.75 0 0 1 12 2.75zm-7.25 17c.9-2.98 3.53-5 7.25-5s6.35 2.02 7.25 5" /></svg>'>Activity Log</x-sidebar-link>
                     </nav>
                 </div>
             </aside>

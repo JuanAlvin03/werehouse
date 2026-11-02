@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\UnitController;
@@ -72,6 +73,9 @@ Route::middleware('auth')->group(function () {
     Route::get('users/create', [RegisteredUserController::class, 'create'])->name('users.create');
     Route::get('users/', [UserController::class, 'index'])->name('users.index');
     Route::post('users/', [RegisteredUserController::class, 'store'])->name('users.store');
+
+    Route::get('activity-logs', [ActivityLogController::class, 'index'])->name('activity-logs.index');
+    Route::get('activity-logs/{activityLog}', [ActivityLogController::class, 'show'])->name('activity-logs.show');
 });
 
 require __DIR__.'/auth.php';
