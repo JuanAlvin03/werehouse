@@ -12,6 +12,7 @@
                             <th class="px-4 py-3 font-medium">Log Name</th>
                             <th class="px-4 py-3 font-medium">Subject ID</th>
                             <th class="px-4 py-3 font-medium">Description</th>
+                            <th class="px-4 py-3 font-medium">User</th>
                             <th class="px-4 py-3 font-medium text-right">Actions</th>
                         </tr>
                     </thead>
@@ -22,6 +23,7 @@
                                 <td class="px-4 py-3">{{ $activityLog->log_name }}</td>
                                 <td class="px-4 py-3">{{ $activityLog->subject_id }}</td>
                                 <td class="px-4 py-3">{{ $activityLog->description }}</td>
+                                <td class="px-4 py-3">{{ $activityLog->causer?->name ?? 'N/A' }}</td>
                                 <td class="px-4 py-3 text-right">
                                     <div class="flex justify-end gap-2">
                                         <a href="{{ route('activity-logs.show', $activityLog) }}" class="text-sm font-medium text-slate-700 hover:text-slate-900">View</a>
