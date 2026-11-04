@@ -16,10 +16,13 @@ class ActivityLogController extends Controller
         ]);
     }
 
-    public function show(ActivityLog $activityLog): View
+    public function show($id): View
     {
+        $activityLog = ActivityLog::findOrFail($id);
+
         return view('activity-logs.show', [
             'activityLog' => $activityLog,
+            'properties' => json_decode($activityLog->attribute_changes),
         ]);
     }
 }
