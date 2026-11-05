@@ -14,17 +14,4 @@ class ActivityLog extends Model
     {
         return $this->belongsTo(User::class, 'causer_id');
     }
-
-    // Relationships
-    /*
-    public function products(): HasMany
-    {
-        return $this->hasMany(Product::class, 'unit_id');
-    }
-
-    public function documentItems(): HasMany
-    {
-        return $this->hasMany(DocumentItem::class, 'unit_id');
-    }
-    */
 }
