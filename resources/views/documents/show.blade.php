@@ -111,6 +111,9 @@
                                     <th class="px-4 py-3 font-medium text-xs text-slate-500">Product</th>
                                     <th class="px-4 py-3 font-medium text-xs text-slate-500 text-right">Qty</th>
                                     <th class="px-4 py-3 font-medium text-xs text-slate-500">Unit</th>
+                                    @if ($document->document_type === 'ADJUSTMENT')
+                                        <th class="px-4 py-3 font-medium text-xs text-slate-500">DIRECTION</th>
+                                    @endif
                                     <th class="px-4 py-3 font-medium text-xs text-slate-500">Notes</th>
                                 </tr>
                             </thead>
@@ -121,6 +124,13 @@
                                         <td class="px-4 py-3">{{ $item->product?->name }}</td>
                                         <td class="px-4 py-3 text-right font-medium">{{ number_format($item->quantity, 3) }}</td>
                                         <td class="px-4 py-3">{{ $item->unit?->code }}</td>
+                                        @if ($document->document_type === 'ADJUSTMENT')
+                                            <td class="px-4 py-3">
+                                                <span class="inline-block rounded px-2 py-1 text-xs font-medium {{ $item->direction == 'INCREASE' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                                    {{ $item->direction }}
+                                                </span>
+                                            </td>
+                                        @endif
                                         <td class="px-4 py-3 text-slate-600">{{ $item->notes ?? '—' }}</td>
                                     </tr>
                                 @endforeach

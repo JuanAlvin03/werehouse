@@ -2,7 +2,7 @@
 
 <x-app-shell :title="$title">
     <div class="min-h-screen bg-slate-100 text-slate-900">
-        <div class="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-5 sm:px-6 lg:flex-row lg:px-8">
+        <div class="mx-auto flex max-w-full flex-col gap-6 px-4 py-5 sm:px-6 lg:flex-row lg:px-8">
             <aside class="w-full shrink-0 lg:w-72">
                 <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
                     <div class="border-b border-slate-200 px-5 py-4">
