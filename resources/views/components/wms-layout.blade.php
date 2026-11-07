@@ -34,7 +34,25 @@
 
                         <x-sidebar-link :href="route('profile.edit')" :active="request()->routeIs('profile.*')" icon='<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M12 2.75a4.75 4.75 0 0 1 4.75 4.75v.5A4.75 4.75 0 0 1 12 13.75a4.75 4.75 0 0 1-4.75-4.75v-.5A4.75 4.75 0 0 1 12 2.75zm-7.25 17c.9-2.98 3.53-5 7.25-5s6.35 2.02 7.25 5" /></svg>'>Profile</x-sidebar-link>
                     
-                        <x-sidebar-link :href="route('activity-logs.index')" :active="request()->routeIs('activity-logs.*')" icon='<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M12 2.75a4.75 4.75 0 0 1 4.75 4.75v.5A4.75 4.75 0 0 1 12 13.75a4.75 4.75 0 0 1-4.75-4.75v-.5A4.75 4.75 0 0 1 12 2.75zm-7.25 17c.9-2.98 3.53-5 7.25-5s6.35 2.02 7.25 5" /></svg>'>Activity Log</x-sidebar-link>
+                        <x-sidebar-link :href="route('activity-logs.index')" :active="request()->routeIs('activity-logs.*')" 
+                            icon='<svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              class="h-4 w-4"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+
+                            >
+                              <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                              <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2" />
+                              <path d="M9 17h6" />
+                              <path d="M9 13h6" />
+                            </svg>'>
+                            Activity Log
+                        </x-sidebar-link>
                     </nav>
                 </div>
             </aside>
