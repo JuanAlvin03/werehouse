@@ -212,6 +212,12 @@ class DocumentPostingService
         $warehouseId = $document->warehouse_id;
         $locationId = $this->getDefaultLocation($warehouseId)->id ?? null;
 
+        $quantity = $item->quantity;
+
+        if (substr($document->document_no, 0, 3) === 'REV' ) {
+            $quantity = -abs($quantity);
+        }
+
         // Create incoming movement
         StockMovement::create([
             'document_id' => $document->id,
@@ -219,18 +225,24 @@ class DocumentPostingService
             'warehouse_id' => $warehouseId,
             'location_id' => $locationId,
             'product_id' => $item->product_id,
-            'quantity' => $item->quantity,
+            'quantity' => $quantity,
             'movement_date' => now(),
         ]);
 
         // Update inventory
-        $this->updateInventory($warehouseId, $locationId, $item->product_id, $item->quantity);
+        $this->updateInventory($warehouseId, $locationId, $item->product_id, $quantity);
     }
 
     private function processIssue(Document $document, DocumentItem $item): void
     {
         $warehouseId = $document->warehouse_id;
         $locationId = $this->getDefaultLocation($warehouseId)->id ?? null;
+
+        $quantity = -$item->quantity;
+
+        if (substr($document->document_no, 0, 3) === 'REV' ) {
+            $quantity = $quantity * -1;
+        }
 
         // Create outgoing movement
         StockMovement::create([
@@ -239,12 +251,12 @@ class DocumentPostingService
             'warehouse_id' => $warehouseId,
             'location_id' => $locationId,
             'product_id' => $item->product_id,
-            'quantity' => -$item->quantity,
+            'quantity' => $quantity,
             'movement_date' => now(),
         ]);
 
         // Update inventory
-        $this->updateInventory($warehouseId, $locationId, $item->product_id, -$item->quantity);
+        $this->updateInventory($warehouseId, $locationId, $item->product_id, $quantity);
     }
 
     private function processAdjustment(Document $document, DocumentItem $item): void
@@ -259,7 +271,7 @@ class DocumentPostingService
         if ($item->direction === 'DECREASE') {
             $quantity = -abs($quantity);
         } 
-
+        
         // Create movement
         StockMovement::create([
             'document_id' => $document->id,
@@ -280,6 +292,12 @@ class DocumentPostingService
         $warehouseId = $document->warehouse_id;
         $locationId = $this->getDefaultLocation($warehouseId)->id ?? null;
 
+        $quantity = $item->quantity;
+
+        if (substr($document->document_no, 0, 3) === 'REV' ) {
+            $quantity = -abs($quantity);
+        }
+
         // Create incoming movement (positive)
         StockMovement::create([
             'document_id' => $document->id,
@@ -287,18 +305,24 @@ class DocumentPostingService
             'warehouse_id' => $warehouseId,
             'location_id' => $locationId,
             'product_id' => $item->product_id,
-            'quantity' => $item->quantity,
+            'quantity' => $quantity,
             'movement_date' => now(),
         ]);
 
         // Update inventory
-        $this->updateInventory($warehouseId, $locationId, $item->product_id, $item->quantity);
+        $this->updateInventory($warehouseId, $locationId, $item->product_id, $quantity);
     }
 
     private function processSupplierReturn(Document $document, DocumentItem $item): void
     {
         $warehouseId = $document->warehouse_id;
         $locationId = $this->getDefaultLocation($warehouseId)->id ?? null;
+
+        $quantity = -$item->quantity;
+
+        if (substr($document->document_no, 0, 3) === 'REV' ) {
+            $quantity = $quantity * -1;
+        }
 
         // Create outgoing movement (negative)
         StockMovement::create([
@@ -307,12 +331,12 @@ class DocumentPostingService
             'warehouse_id' => $warehouseId,
             'location_id' => $locationId,
             'product_id' => $item->product_id,
-            'quantity' => -$item->quantity,
+            'quantity' => $quantity,
             'movement_date' => now(),
         ]);
 
         // Update inventory
-        $this->updateInventory($warehouseId, $locationId, $item->product_id, -$item->quantity);
+        $this->updateInventory($warehouseId, $locationId, $item->product_id, $quantity);
     }
 
     private function processTransfer(Document $document, DocumentItem $item): void
@@ -322,6 +346,12 @@ class DocumentPostingService
         $sourceLocationId = $this->getDefaultLocation($sourceWarehouseId)->id ?? null;
         $destLocationId = $this->getDefaultLocation($destWarehouseId)->id ?? null;
 
+        $quantity = $item->quantity;
+
+        if (substr($document->document_no, 0, 3) === 'REV' ) {
+            $quantity = -abs($quantity);
+        }
+
         // Create outgoing movement at source
         StockMovement::create([
             'document_id' => $document->id,
@@ -329,7 +359,7 @@ class DocumentPostingService
             'warehouse_id' => $sourceWarehouseId,
             'location_id' => $sourceLocationId,
             'product_id' => $item->product_id,
-            'quantity' => -$item->quantity,
+            'quantity' => $quantity * -1,
             'movement_date' => now(),
         ]);
 
@@ -340,13 +370,13 @@ class DocumentPostingService
             'warehouse_id' => $destWarehouseId,
             'location_id' => $destLocationId,
             'product_id' => $item->product_id,
-            'quantity' => $item->quantity,
+            'quantity' => $quantity,
             'movement_date' => now(),
         ]);
 
         // Update inventory at both locations
-        $this->updateInventory($sourceWarehouseId, $sourceLocationId, $item->product_id, -$item->quantity);
-        $this->updateInventory($destWarehouseId, $destLocationId, $item->product_id, $item->quantity);
+        $this->updateInventory($sourceWarehouseId, $sourceLocationId, $item->product_id, -$quantity);
+        $this->updateInventory($destWarehouseId, $destLocationId, $item->product_id, $quantity);
     }
 
     /**
@@ -415,15 +445,28 @@ class DocumentPostingService
                 'posted_at' => now(),
             ]);
 
-            // Copy items and reverse quantities
-            foreach ($document->items as $item) {
-                $reversalItem = DocumentItem::create([
-                    'document_id' => $reversal->id,
-                    'product_id' => $item->product_id,
-                    'quantity' => $item->quantity,
-                    'unit_id' => $item->unit_id,
-                    'notes' => "Reversal of original item",
-                ]);
+            if ($document->document_type === 'ADJUSTMENT') {
+                foreach ($document->items as $item) {
+                    $reversalItem = DocumentItem::create([
+                        'document_id' => $reversal->id,
+                        'product_id' => $item->product_id,
+                        'quantity' => $item->quantity,
+                        'unit_id' => $item->unit_id,
+                        'direction' => $item->direction === 'INCREASE' ? 'DECREASE' : 'INCREASE',
+                        'notes' => "Reversal of original item",
+                    ]);
+                }
+            } else {
+                // Copy items and reverse quantities
+                foreach ($document->items as $item) {
+                    $reversalItem = DocumentItem::create([
+                        'document_id' => $reversal->id,
+                        'product_id' => $item->product_id,
+                        'quantity' => $item->quantity,
+                        'unit_id' => $item->unit_id,
+                        'notes' => "Reversal of original item",
+                    ]);
+                }
             }
 
             // Create reversed stock movements and update inventory
