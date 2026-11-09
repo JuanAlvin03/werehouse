@@ -429,6 +429,10 @@ class DocumentPostingService
                 throw new \Exception("Only posted documents can be cancelled");
             }
 
+            if (substr($document->document_no, 0, 3) === 'REV') {
+                throw new \Exception("Cancellation documents cannot be cancelled");
+            }
+
             // Create reversal document
             $reversal = Document::create([
                 'document_no' => 'REV-' . $document->document_no,

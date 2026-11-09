@@ -22,7 +22,7 @@
                         </button>
                     </form>
                 </div>
-            @elseif ($document->isPosted())
+            @elseif ($document->isPosted() && !(substr($document->document_no, 0, 3) === 'REV'))
                 <form action="{{ route('documents.cancel', $document) }}" method="POST" style="display: inline;">
                     @csrf
                     <button type="submit" class="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50" onclick="return confirm('Cancel this document? A reversal document will be created.');">
