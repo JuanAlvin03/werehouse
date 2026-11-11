@@ -38,9 +38,6 @@ class ProductController extends Controller
     {
         $product = Product::create($request->validated());
 
-        // try to autogenerate code if not provided
-        // using something like category name + product name + number
-
         if (!$request->input('is_active')) {
             $product->update(['is_active' => false]);
         }
