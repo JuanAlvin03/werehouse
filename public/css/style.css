@@ -1,0 +1,116 @@
+:root {
+  --toast-bg: #ffffff;
+  --toast-text: #1f2937;
+  --toast-subtext: #6b7280;
+  --success: #10b981;
+  --error: #ef4444;
+  --warning: #f59e0b;
+  --info: #3b82f6;
+}
+/* Toast Container (Top-Right Position) */
+#toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 360px;
+  width: calc(100% - 40px);
+}
+/* Individual Toast Card */
+.toast {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: var(--toast-bg);
+  color: var(--toast-text);
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  border-left: 5px solid var(--info);
+  animation: slideIn 0.3s cubic-bezier(0.21, 1.02, 0.73, 1) forwards;
+}
+.toast.hide {
+  animation: slideOut 0.3s ease forwards;
+}
+/* Toast Type Modifiers */
+.toast.success { border-left-color: var(--success); }
+.toast.error   { border-left-color: var(--error); }
+.toast.warning { border-left-color: var(--warning); }
+.toast.info    { border-left-color: var(--info); }
+/* Content & Close Button */
+.toast-content {
+  flex: 1;
+}
+.toast-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.toast-message {
+  font-size: 0.85rem;
+  color: var(--toast-subtext);
+  line-height: 1.4;
+}
+.toast-close {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  line-height: 1;
+  color: #9ca3af;
+  cursor: pointer;
+  padding: 2px;
+}
+.toast-close:hover {
+  color: var(--toast-text);
+}
+/* Bottom Progress Bar */
+.toast-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.08);
+}
+.toast-progress::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: currentColor;
+  animation: progress linear forwards;
+  animation-duration: var(--duration, 4000ms);
+}
+.toast.success .toast-progress::before { color: var(--success); }
+.toast.error   .toast-progress::before { color: var(--error); }
+.toast.warning .toast-progress::before { color: var(--warning); }
+.toast.info    .toast-progress::before { color: var(--info); }
+/* Animations */
+@keyframes slideIn {
+  from {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+}
+@keyframes progress {
+  from { width: 100%; }
+  to   { width: 0%; }
+}
