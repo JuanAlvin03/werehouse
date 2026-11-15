@@ -1,36 +1,11 @@
-<button id="deleteBtn">Delete Item</button>
-
-<dialog id="confirmModal">
-    <form method="dialog">
-        <p id="modalMessage">Are you sure you want to proceed?</p>
-        <button value="false">Cancel</button>
-        <button value="true" autofocus>Confirm</button>
-    </form>
-</dialog>
-
-<script>
-    const modal = document.getElementById('confirmModal');
-    const modalMessage = document.getElementById('modalMessage');
-        
-    function customConfirm(message) {
-        modalMessage.textContent = message;
-        modal.showModal(); // Opens as a modal with a backdrop
-        
-        return new Promise((resolve) => {
-            modal.addEventListener('close', () => {
-                // modal.returnValue equals the 'value' attribute of the clicked button
-                resolve(modal.returnValue === 'true');
-            }, { once: true });
-        });
-    }
-    
-    // Usage Example
-    document.getElementById('deleteBtn').addEventListener('click', async () => {
-        const isConfirmed = await customConfirm('Delete this record permanently?');
-        if (isConfirmed) {
-            console.log('Item deleted.');
-        } else {
-            console.log('Action canceled.');
-        }
-    });
-</script>
+<!-- Custom Modal Structure (Hidden by default) -->
+<div id="customModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div class="bg-white rounded-lg p-6 max-w-md w-full shadow-xl">
+        <h3 class="text-lg font-bold mb-2">Confirm Submission</h3>
+        <p class="text-gray-600 mb-6">Are you ready to submit your changes?</p>
+        <div class="flex justify-end space-x-3">
+            <button id="cancelBtn" type="button" class="bg-gray-200 px-4 py-2 rounded">Cancel</button>
+            <button id="confirmBtn" type="button" class="bg-blue-600 text-white px-4 py-2 rounded">Confirm</button>
+        </div>
+    </div>
+</div>

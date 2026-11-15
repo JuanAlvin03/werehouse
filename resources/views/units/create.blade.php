@@ -2,7 +2,7 @@
     <x-page-header title="Create unit" subtitle="Add a new measurement unit for products and inventory." />
 
     <x-panel>
-        <form action="{{ route('units.store') }}" method="POST" class="space-y-5">
+        <form action="{{ route('units.store') }}" method="POST" class="space-y-5" id="myForm">
             @csrf
 
             <div class="grid gap-5 md:grid-cols-2">
