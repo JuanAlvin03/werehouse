@@ -2,7 +2,7 @@
     <x-page-header title="Edit unit" subtitle="Update unit metadata." />
 
     <x-panel>
-        <form action="{{ route('units.update', $unit) }}" method="POST" class="space-y-5">
+        <form class="need-confirm" action="{{ route('units.update', $unit) }}" method="POST" class="space-y-5">
             @csrf
             @method('PUT')
 

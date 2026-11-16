@@ -2,7 +2,7 @@
     <x-page-header title="Create warehouse" subtitle="Add a new storage site or stock location." />
 
     <x-panel>
-        <form action="{{ route('warehouses.store') }}" method="POST" class="space-y-5">
+        <form class="need-confirm" action="{{ route('warehouses.store') }}" method="POST" class="space-y-5">
             @csrf
 
             <div class="grid gap-5 md:grid-cols-2">

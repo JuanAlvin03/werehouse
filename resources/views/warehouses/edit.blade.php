@@ -2,7 +2,7 @@
     <x-page-header title="Edit warehouse" subtitle="Update warehouse details." />
 
     <x-panel>
-        <form action="{{ route('warehouses.update', $warehouse) }}" method="POST" class="space-y-5">
+        <form class="need-confirm" action="{{ route('warehouses.update', $warehouse) }}" method="POST" class="space-y-5">
             @csrf
             @method('PUT')
 

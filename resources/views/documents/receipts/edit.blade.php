@@ -2,7 +2,7 @@
     <x-page-header title="Edit receipt" subtitle="Update receipt details." />
 
     <x-panel>
-        <form action="{{ route('receipts.update', $document) }}" method="POST" class="space-y-6">
+        <form class="need-confirm" action="{{ route('receipts.update', $document) }}" method="POST" class="space-y-6">
             @csrf
             @method('PUT')
 

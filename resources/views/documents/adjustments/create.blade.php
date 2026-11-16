@@ -2,7 +2,7 @@
     <x-page-header title="Create stock adjustment" subtitle="Adjust inventory quantities in warehouse." />
 
     <x-panel>
-        <form action="{{ route('adjustments.store') }}" method="POST" class="space-y-6">
+        <form class="need-confirm" action="{{ route('adjustments.store') }}" method="POST" class="space-y-6">
             @csrf
 
             <!-- Document Header -->

@@ -2,7 +2,7 @@
     <x-page-header title="Create category" subtitle="Create a product category or sub-category." />
 
     <x-panel>
-        <form action="{{ route('product-categories.store') }}" method="POST" class="space-y-5">
+        <form class="need-confirm" action="{{ route('product-categories.store') }}" method="POST" class="space-y-5">
             @csrf
 
             <div class="grid gap-5 md:grid-cols-2">

@@ -2,7 +2,7 @@
     <x-page-header title="Create Supplier Return" subtitle="Record goods returned to a supplier." />
 
     <x-panel>
-        <form action="{{ route('supplier-returns.store') }}" method="POST" class="space-y-6">
+        <form class="need-confirm" action="{{ route('supplier-returns.store') }}" method="POST" class="space-y-6">
             @csrf
 
             <!-- Document Header -->

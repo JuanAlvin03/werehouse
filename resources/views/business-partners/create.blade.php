@@ -2,7 +2,7 @@
     <x-page-header title="Create partner" subtitle="Add a supplier or customer record." />
 
     <x-panel>
-        <form action="{{ route('business-partners.store') }}" method="POST" class="space-y-5">
+        <form class="need-confirm" action="{{ route('business-partners.store') }}" method="POST" class="space-y-5">
             @csrf
 
             <div class="grid gap-5 md:grid-cols-2">

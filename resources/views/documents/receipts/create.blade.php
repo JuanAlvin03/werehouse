@@ -2,7 +2,7 @@
     <x-page-header title="Create receipt" subtitle="Record goods received from a supplier." />
 
     <x-panel>
-        <form action="{{ route('receipts.store') }}" method="POST" class="space-y-6">
+        <form class="need-confirm" action="{{ route('receipts.store') }}" method="POST" class="space-y-6">
             @csrf
 
             <!-- Document Header -->

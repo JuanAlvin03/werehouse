@@ -2,7 +2,7 @@
     <x-page-header title="Create Warehouse Transfer" subtitle="Record goods transferred between warehouses." />
 
     <x-panel>
-        <form action="{{ route('transfers.store') }}" method="POST" class="space-y-6">
+        <form class="need-confirm" action="{{ route('transfers.store') }}" method="POST" class="space-y-6">
             @csrf
 
             <!-- Document Header -->

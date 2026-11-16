@@ -30,16 +30,21 @@ function showToast(type = 'info', title = '', message = '', duration = 4000) {
 
 // For form submission confirmation modal
 document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('myForm');
-    const modal = document.getElementById('customModal');
+    // const form = document.getElementById('myForm');
+    const forms = document.querySelectorAll('.need-confirm');
+    const modal = document.getElementById('confirmModal');
     const cancelBtn = document.getElementById('cancelBtn');
     const confirmBtn = document.getElementById('confirmBtn');
     let isConfirmed = false;
-    form.addEventListener('submit', function (e) {
-        if (!isConfirmed) {
-            e.preventDefault(); // Stop the form from submitting immediately
-            modal.classList.remove('hidden'); // Show your custom modal
-        }
+    let selectedForm = null;
+    forms.forEach(form => {
+        form.addEventListener('submit', function (e) {
+            if (!isConfirmed) {
+                e.preventDefault(); // Stop the form from submitting immediately
+                selectedForm = form;
+                modal.classList.remove('hidden'); // Show your custom modal
+            }
+        });
     });
     cancelBtn.addEventListener('click', function () {
         modal.classList.add('hidden'); // Hide modal
@@ -47,6 +52,6 @@ document.addEventListener('DOMContentLoaded', function () {
     confirmBtn.addEventListener('click', function () {
         isConfirmed = true; // Flag that confirmation passed
         modal.classList.add('hidden');
-        form.submit(); // Trigger actual form submission
+        selectedForm.submit(); // Trigger actual form submission
     });
 });

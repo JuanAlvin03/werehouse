@@ -4,10 +4,10 @@
             <a href="{{ route('warehouses.edit', $warehouse) }}" class="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50">Edit</a>
         
             @if ($warehouse->inventories()->count() == 0) 
-                <form action="{{ route('warehouses.destroy', $warehouse) }}" method="POST" style="display: inline;">
+                <form class="need-confirm" action="{{ route('warehouses.destroy', $warehouse) }}" method="POST" style="display: inline;">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="inline-flex items-center justify-center rounded-lg border border-red-300 bg-red-50 px-4 py-2.5 text-sm font-medium text-red-700 hover:bg-red-100" onclick="return confirm('Delete this category? This cannot be undone.');">
+                    <button type="submit" class="inline-flex items-center justify-center rounded-lg border border-red-300 bg-red-50 px-4 py-2.5 text-sm font-medium text-red-700 hover:bg-red-100">
                         Delete
                     </button>
                 </form>

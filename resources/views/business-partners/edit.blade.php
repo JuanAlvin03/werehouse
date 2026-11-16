@@ -2,7 +2,7 @@
     <x-page-header title="Edit partner" subtitle="Update supplier or customer details." />
 
     <x-panel>
-        <form action="{{ route('business-partners.update', $partner) }}" method="POST" class="space-y-5">
+        <form class="need-confirm" action="{{ route('business-partners.update', $partner) }}" method="POST" class="space-y-5">
             @csrf
             @method('PUT')
 

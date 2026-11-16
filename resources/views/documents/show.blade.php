@@ -3,29 +3,27 @@
         <x-slot:actions>
             @if ($document->isDraft())
                 <div class="flex items-center gap-2">
-                    <form action="{{ route('documents.post', $document) }}" method="POST" style="display: inline;">
+                    <form class="need-confirm" action="{{ route('documents.post', $document) }}" method="POST" style="display: inline;">
                         @csrf
-                        <button type="submit" class="inline-flex items-center justify-center rounded-lg bg-green-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-green-700" onclick="return confirm('Post this document? This action cannot be undone.');">
+                        <button type="submit" class="inline-flex items-center justify-center rounded-lg bg-green-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-green-700">
                             Post
                         </button>
                     </form>
 
-                    {{-- need to know document type, then route to its respective edit --}}
-
                     <a href="{{ route($documentType . 's.edit', $document) }}" class="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50">Edit</a>
                     
-                    <form action="{{ route('documents.destroy', $document) }}" method="POST" style="display: inline;">
+                    <form class="need-confirm" action="{{ route('documents.destroy', $document) }}" method="POST" style="display: inline;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="inline-flex items-center justify-center rounded-lg border border-red-300 bg-red-50 px-4 py-2.5 text-sm font-medium text-red-700 hover:bg-red-100" onclick="return confirm('Delete this document? This cannot be undone.');">
+                        <button type="submit" class="inline-flex items-center justify-center rounded-lg border border-red-300 bg-red-50 px-4 py-2.5 text-sm font-medium text-red-700 hover:bg-red-100">
                             Delete
                         </button>
                     </form>
                 </div>
             @elseif ($document->isPosted() && !(substr($document->document_no, 0, 3) === 'REV'))
-                <form action="{{ route('documents.cancel', $document) }}" method="POST" style="display: inline;">
+                <form class="need-confirm" action="{{ route('documents.cancel', $document) }}" method="POST" style="display: inline;">
                     @csrf
-                    <button type="submit" class="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50" onclick="return confirm('Cancel this document? A reversal document will be created.');">
+                    <button type="submit" class="inline-flex items-center justify-center rounded-lg border border-red-300 bg-red-50 px-4 py-2.5 text-sm font-medium text-red-700 hover:bg-red-100">
                         Cancel
                     </button>
                 </form>

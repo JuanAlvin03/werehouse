@@ -2,7 +2,7 @@
     <x-page-header title="Create product" subtitle="Add a new product to the master list." />
 
     <x-panel>
-        <form action="{{ route('products.store') }}" method="POST" class="space-y-5">
+        <form class="need-confirm" action="{{ route('products.store') }}" method="POST" class="space-y-5">
             @csrf
 
             <div class="grid gap-5 md:grid-cols-2">

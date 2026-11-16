@@ -2,7 +2,7 @@
     <x-page-header title="Edit category" subtitle="Update category details." />
 
     <x-panel>
-        <form action="{{ route('product-categories.update', $category) }}" method="POST" class="space-y-5">
+        <form class="need-confirm" action="{{ route('product-categories.update', $category) }}" method="POST" class="space-y-5">
             @csrf
             @method('PUT')
 

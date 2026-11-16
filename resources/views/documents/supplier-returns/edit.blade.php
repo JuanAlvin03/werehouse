@@ -2,7 +2,7 @@
     <x-page-header title="Edit Supplier Return" subtitle="Update supplier return details." />
 
     <x-panel>
-        <form action="{{ route('supplier-returns.update', $document) }}" method="POST" class="space-y-6">
+        <form class="need-confirm" action="{{ route('supplier-returns.update', $document) }}" method="POST" class="space-y-6">
             @csrf
             @method('PUT')
 
