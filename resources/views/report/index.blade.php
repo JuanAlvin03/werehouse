@@ -11,6 +11,7 @@
         {{-- 
         link based on what Reports like: inventory stock, movement, documents, etc.
         then link to the report page with filters and export options
+        tables / list to a page with filters and export options
         --}}
     </x-panel>
 </x-wms-layout>

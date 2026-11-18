@@ -11,6 +11,7 @@ use App\Http\Controllers\BusinessPartnerController;
 use App\Http\Controllers\StockAdjustmentReasonController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\ReceiptController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\IssueController;
 use App\Http\Controllers\AdjustmentController;
 use App\Http\Controllers\CustomerReturnController;
@@ -69,6 +70,7 @@ Route::middleware('auth')->group(function () {
     // Transfer Routes
     Route::resource('transfers', TransferController::class, ['only' => ['index', 'create', 'store', 'edit', 'update']]);
 
+    Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
     // User Add, only admin can add user
     Route::get('users/create', [RegisteredUserController::class, 'create'])->name('users.create');
     Route::get('users/', [UserController::class, 'index'])->name('users.index');
