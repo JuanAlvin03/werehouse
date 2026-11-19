@@ -22,4 +22,10 @@ class ReportController extends Controller
         return view('reports.index', compact('warehouses', 'products', 'businessPartners', 'units'));
     }
 
+    public function create_stock_movement_by_warehouse(): View
+    {
+        $warehouses = Warehouse::all();
+        return view('reports.stock-movement-by-warehouse', compact('warehouses'));
+    }
+
 }
