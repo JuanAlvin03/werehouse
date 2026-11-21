@@ -9,6 +9,8 @@ use App\Models\BusinessPartner;
 use App\Models\Unit;
 use Illuminate\View\View;
 
+use Barryvdh\DomPDF\Facade\Pdf;
+
 class ReportController extends Controller
 {
 
@@ -26,6 +28,19 @@ class ReportController extends Controller
     {
         $warehouses = Warehouse::all();
         return view('reports.stock-movement-by-warehouse', compact('warehouses'));
+    }
+
+    public function document_show($id)
+    {
+        $document = Document::findOrFail($id);
+
+        return PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])
+                ->loadView('admin.exports.document-show', [
+                    'title' => $document->document_type . '_' . $document->document_no,
+                    'document' => $document,
+                ])
+                ->setPaper('a4', 'potrait')
+                ->stream($document->document_type . '_' . $document->document_no . '.pdf');
     }
 
 }
