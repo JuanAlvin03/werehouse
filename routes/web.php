@@ -51,6 +51,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('documents', DocumentController::class, ['except' => 'edit', 'update', 'create', 'store']);
     Route::post('documents/{document}/post', [DocumentController::class, 'post'])->name('documents.post');
     Route::post('documents/{document}/cancel', [DocumentController::class, 'cancel'])->name('documents.cancel');
+    Route::get('documents/{document}/export', [ReportController::class, 'document_show'])->name('documents.export');
 
     // Receipt Routes
     Route::resource('receipts', ReceiptController::class, ['only' => ['index', 'create', 'store', 'edit', 'update']]);

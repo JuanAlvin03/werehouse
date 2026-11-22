@@ -35,7 +35,7 @@ class ReportController extends Controller
         $document = Document::findOrFail($id);
 
         return PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])
-                ->loadView('admin.exports.document-show', [
+                ->loadView('exports.document-show', [
                     'title' => $document->document_type . '_' . $document->document_no,
                     'document' => $document,
                 ])
