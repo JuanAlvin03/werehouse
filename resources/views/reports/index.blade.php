@@ -22,7 +22,7 @@
             </div>
             <div class="flex items-center gap-3">
                 {{--<x-status-badge :value="$document->status" :tone="match($document->status) { 'POSTED' => 'success', 'DRAFT' => 'info', 'CANCELLED' => 'danger', default => 'default' }" /> --}}
-                <a href="{{ route('reports.stock-movement-by-warehouse') }}" class="text-sm font-medium text-slate-700 hover:text-slate-900">Create Report</a>
+                <a href="{{ route('reports.stock-movement-by-warehouse.create') }}" class="text-sm font-medium text-slate-700 hover:text-slate-900">Create Report</a>
             </div>
         </div>
     </x-panel>

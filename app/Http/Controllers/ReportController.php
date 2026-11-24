@@ -10,6 +10,7 @@ use App\Models\Unit;
 use Illuminate\View\View;
 
 use Barryvdh\DomPDF\Facade\Pdf;
+use GuzzleHttp\Psr7\Request;
 
 class ReportController extends Controller
 {
@@ -27,7 +28,13 @@ class ReportController extends Controller
     public function create_stock_movement_by_warehouse(): View
     {
         $warehouses = Warehouse::all();
-        return view('reports.stock-movement-by-warehouse', compact('warehouses'));
+        return view('reports.create.stock-movement-by-warehouse', compact('warehouses'));
+    }
+
+    public function generate_stock_movement_by_warehouse(Request $request): View
+    {
+        $warehouses = Warehouse::all();
+        return view('reports.show.stock-movement-by-warehouse', compact('warehouses'));
     }
 
     public function document_show($id)

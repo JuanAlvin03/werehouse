@@ -72,7 +72,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('transfers', TransferController::class, ['only' => ['index', 'create', 'store', 'edit', 'update']]);
 
     Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
-    Route::get('reports/stock-movement-by-warehouse', [ReportController::class, 'create_stock_movement_by_warehouse'])->name('reports.stock-movement-by-warehouse');
+    Route::get('reports/stock-movement-by-warehouse/create', [ReportController::class, 'create_stock_movement_by_warehouse'])->name('reports.stock-movement-by-warehouse.create');
+    Route::post('reports/stock-movement-by-warehouse/show', [ReportController::class, 'generate_stock_movement_by_warehouse'])->name('reports.stock-movement-by-warehouse.show');
     // User Add, only admin can add user
     Route::get('users/create', [RegisteredUserController::class, 'create'])->name('users.create');
     Route::get('users/', [UserController::class, 'index'])->name('users.index');
