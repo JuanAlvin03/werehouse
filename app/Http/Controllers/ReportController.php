@@ -6,11 +6,14 @@ use App\Models\Document;
 use App\Models\Warehouse;
 use App\Models\Product;
 use App\Models\BusinessPartner;
+use App\Models\StockMovement;
 use App\Models\Unit;
+use Carbon\Carbon;
 use Illuminate\View\View;
 
 use Barryvdh\DomPDF\Facade\Pdf;
-use GuzzleHttp\Psr7\Request;
+//use GuzzleHttp\Psr7\Request;
+use Illuminate\Foundation\Http\FormRequest;
 
 class ReportController extends Controller
 {
@@ -31,10 +34,17 @@ class ReportController extends Controller
         return view('reports.create.stock-movement-by-warehouse', compact('warehouses'));
     }
 
-    public function generate_stock_movement_by_warehouse(Request $request): View
+    public function generate_stock_movement_by_warehouse(FormRequest $request): View
     {
-        $warehouses = Warehouse::all();
-        return view('reports.show.stock-movement-by-warehouse', compact('warehouses'));
+        $warehouse = Warehouse::findOrFail($request->warehouse_id);
+        $stock_movements = StockMovement::selectRaw('product_id, SUM(CASE WHEN quantity > 0 THEN quantity ELSE 0 END) AS qty_in, SUM(CASE WHEN quantity <= 0 THEN quantity ELSE 0 END) AS qty_out')
+            ->where('movement_date', '>=', Carbon::parse($request->start_date))
+            ->where('movement_date', '<=', Carbon::parse($request->end_date))
+            ->where('warehouse_id', $warehouse->id)
+            ->groupBy('product_id')
+            ->get();
+
+        return view('reports.show.stock-movement-by-warehouse', compact('warehouse', 'stock_movements'));
     }
 
     public function document_show($id)

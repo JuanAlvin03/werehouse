@@ -6,19 +6,23 @@
             @csrf
 
             <div class="grid gap-5 md:grid-cols-2">
-                {{-- make this a select for the warehouses --}}
-                <x-form-field label="Warehouse" for="warehouse" :required="true">
-                    <input id="warehouse" name="warehouse" value="{{ old('warehouse') }}" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-800 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200" required>
-                    @error('warehouse') <span class="text-sm text-rose-600">{{ $message }}</span> @enderror
+                <x-form-field label="Warehouse" for="warehouse_id" :required="true">
+                    <select id="warehouse_id" name="warehouse_id" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-800 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200" required>
+                        <option value="">Select warehouse</option>
+                        @foreach ($warehouses as $warehouse)
+                            <option value="{{ $warehouse->id }}" {{ old('warehouse_id') == $warehouse->id ? 'selected' : '' }}>{{ $warehouse->code }} - {{ $warehouse->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('warehouse_id') <span class="text-sm text-rose-600">{{ $message }}</span> @enderror
                 </x-form-field>
 
                 <x-form-field label="Start date" for="start_date" :required="true">
-                    <input id="start_date" name="start_date" value="{{ old('start_date') }}" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-800 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200" required>
+                    <input type="date" id="start_date" name="start_date" value="{{ old('start_date') }}" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-800 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200" required>
                     @error('start_date') <span class="text-sm text-rose-600">{{ $message }}</span> @enderror
                 </x-form-field>
 
                 <x-form-field label="End date" for="end_date" :required="true" class="md:col-span-2">
-                    <input id="end_date" name="end_date" value="{{ old('end_date') }}" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-800 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200" required>
+                    <input type="date" id="end_date" name="end_date" value="{{ old('end_date') }}" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-800 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-200" required>
                     @error('end_date') <span class="text-sm text-rose-600">{{ $message }}</span> @enderror
                 </x-form-field>
             </div>
