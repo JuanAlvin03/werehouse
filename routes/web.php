@@ -74,6 +74,7 @@ Route::middleware('auth')->group(function () {
     Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
     Route::get('reports/stock-movement-by-warehouse/create', [ReportController::class, 'create_stock_movement_by_warehouse'])->name('reports.stock-movement-by-warehouse.create');
     Route::post('reports/stock-movement-by-warehouse/show', [ReportController::class, 'generate_stock_movement_by_warehouse'])->name('reports.stock-movement-by-warehouse.show');
+    Route::post('reports/stock-movement-by-warehouse/export/pdf', [ReportController::class, 'export_stock_movement_by_warehouse_pdf'])->name('reports.stock-movement-by-warehouse.export.pdf');
     // User Add, only admin can add user
     Route::get('users/create', [RegisteredUserController::class, 'create'])->name('users.create');
     Route::get('users/', [UserController::class, 'index'])->name('users.index');

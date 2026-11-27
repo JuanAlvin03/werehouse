@@ -49,6 +49,21 @@ class ReportController extends Controller
         return view('reports.show.stock-movement-by-warehouse', compact('warehouse', 'stock_movements', 'start_date', 'end_date'));
     }
 
+    public function export_stock_movement_by_warehouse_pdf(FormRequest $request): View
+    {
+        $warehouse = Warehouse::findOrFail($request->warehouse_id);
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+        $stock_movements = StockMovement::selectRaw('product_id, SUM(CASE WHEN quantity > 0 THEN quantity ELSE 0 END) AS qty_in, SUM(CASE WHEN quantity <= 0 THEN quantity ELSE 0 END) AS qty_out')
+            ->where('movement_date', '>=', Carbon::parse($request->start_date))
+            ->where('movement_date', '<=', Carbon::parse($request->end_date))
+            ->where('warehouse_id', $warehouse->id)
+            ->groupBy('product_id')
+            ->get();
+
+        // return the PDF view
+    }
+
     public function document_show($id)
     {
         $document = Document::findOrFail($id);
