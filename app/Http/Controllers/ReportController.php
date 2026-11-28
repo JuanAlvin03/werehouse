@@ -49,11 +49,11 @@ class ReportController extends Controller
         return view('reports.show.stock-movement-by-warehouse', compact('warehouse', 'stock_movements', 'start_date', 'end_date'));
     }
 
-    public function export_stock_movement_by_warehouse_pdf(FormRequest $request): View
+    public function export_stock_movement_by_warehouse_pdf(FormRequest $request)
     {
         $warehouse = Warehouse::findOrFail($request->warehouse_id);
-        $start_date = $request->start_date;
-        $end_date = $request->end_date;
+        $start_date = Carbon::parse($request->start_date);
+        $end_date = Carbon::parse($request->end_date);
         $stock_movements = StockMovement::selectRaw('product_id, SUM(CASE WHEN quantity > 0 THEN quantity ELSE 0 END) AS qty_in, SUM(CASE WHEN quantity <= 0 THEN quantity ELSE 0 END) AS qty_out')
             ->where('movement_date', '>=', Carbon::parse($request->start_date))
             ->where('movement_date', '<=', Carbon::parse($request->end_date))
@@ -61,7 +61,16 @@ class ReportController extends Controller
             ->groupBy('product_id')
             ->get();
 
-        // return the PDF view
+        return PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])
+                ->loadView('exports.stock-movement-by-warehouse', [
+                    'title' => $warehouse->name . '_' . $start_date . '_' . $end_date,
+                    'stock_movements' => $stock_movements,
+                    'start_date' => $start_date,
+                    'end_date' => $end_date,
+                    'warehouse' => $warehouse,
+                ])
+                ->setPaper('a4', 'potrait')
+                ->stream($warehouse->name . '_' . $start_date . '_' . $end_date . '.pdf');
     }
 
     public function document_show($id)
